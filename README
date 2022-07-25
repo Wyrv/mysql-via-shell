@@ -3,9 +3,10 @@ Inicialmente eu fazia manualmente, executando a SELECT com o Workbench, ou o Dbe
 Isso pode ser feito facilmente com PHP, ou alguma outra linguagem mais recente, mas eu não tinha esse conhecimento da época.
 Eu conhecia muito bem o shell, então resolvi fazer via shell, e agendar a execução no cron do servidor CENTOS que usavamos na época.
 
-O resultado foi um script que funcionou muito bem, até pouco tempo atrás.
-A seleção do time-range é feito com base na hora de execução.
+O resultado foi um script que funcionou muito bem, até pouco tempo atrás. (Nunca deu problema, só não tivemos mais essa necessidade)
+A seleção do time-range é feito com base na hora de execução (com o comando date).
 No meu caso de uso, coloquei pra executar no dia 01 de cada mês as 00:00. Daí é feito as operações pra pegar do inicio do mês passado, até o ultimo dia do mês.
+Os campos de inicio e fim do time-range, devem estar no formato padrão internacional (AAAA-MM-DD HH:MM:SS)
 
 Comentei bastante o código onde achei necessário. Espero que sirva como bom exemplo pra alguem algum dia!
 
