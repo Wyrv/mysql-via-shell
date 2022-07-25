@@ -1,0 +1,33 @@
+A alguns anos, eu precisava automatizar uma SELECT no banco de dados, pra pegar alguns valores que a empresa tinha que pagar pra alguns colaboradores.
+Inicialmente eu fazia manualmente, executando a SELECT com o Workbench, ou o Dbeaver no início de cada mês, só que eu queria que ocorresse de forma automática.
+Isso pode ser feito facilmente com PHP, ou alguma outra linguagem mais recente, mas eu não tinha esse conhecimento da época.
+Eu conhecia muito bem o shell, então resolvi fazer via shell, e agendar a execução no cron do servidor CENTOS que usavamos na época.
+
+O resultado foi um script que funcionou muito bem, até pouco tempo atrás.
+A seleção do time-range é feito com base na hora de execução.
+No meu caso de uso, coloquei pra executar no dia 01 de cada mês as 00:00. Daí é feito as operações pra pegar do inicio do mês passado, até o ultimo dia do mês.
+
+Comentei bastante o código onde achei necessário. Espero que sirva como bom exemplo pra alguem algum dia!
+
+SCRIPT DE AUTOMATIZACAO DE QUERY
+
+INSERIR NO CRON:
+0       0       1       *       *       /scripts/monthly-queries/monthly-query-engine.sh NOME_DA_SELECT.sql
+
+A SELECT DEVE SER CRIADA NO DIRETORIO /scripts/monthly-queries/sql-queries/ E SALVA COM EXTENSAO .sql
+
+AO CHAMAR O SCRIPT, DEVE-SE PASSAR O NOME DO ARQUIVO SQL
+
+NO RANGE DE DATA, UTILIZAR AS SEGUINTES CHAVES:
+*D_INI* = P/ DIA INICIAL
+*M_INI* = P/ MES INICIAL
+*Y_INI* = P/ ANO INICIAL
+*D_END* = P/ DIA FINAL
+*M_END* = P/ MES FINAL
+*Y_END* = P/ ANO FINAL
+
+O CALCULO DA DATA SERA FEITO AUTOMATICAMENTE, SUBSTITUINDO AS STRINGS ACIMA PELA RANGE DE DATA DO MES ANTERIOR.
+O RESULTADO É UM ARQUIVO TXT SIMPLES
+
+OBS.: O mysql client tem que estar instalado, e no meu caso é executado local via shell, com o usuário root (ou outro usuário de sua escolha, com a permissão adequada).
+Depois disso, eu configurei outro script que acessa o banco com uma chave ssh pré configurada, e copia o arquivo com o resultado da select, pra um diretório onde o colaborador consegue acessar via web.
